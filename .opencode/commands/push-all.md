@@ -16,6 +16,21 @@ You are executing the `/push-all` command to commit all changes and push. Follow
    - !`git remote get-url origin 2>/dev/null || echo "no-remote"`
    - If branch is main, master, develop, or release/*: warn user before proceeding
    - If no remote: "No remote configured. Add a remote with: git remote add origin <url>"
+   
+   **If on Protected Branch:**
+   Present options:
+   - label: "Push Anyway"
+     description: "Push directly from protected branch"
+   - label: "Create Branch"
+     description: "Create a new branch with conventional naming and push there"
+   - label: "Cancel"
+     description: "Abort the push"
+   
+   If user chooses "Create Branch":
+   - Suggest branch name: `feat/short-description` (infer from commit intent)
+   - Confirm branch name with user
+   - Run: !`git checkout -b <suggested-branch-name>`
+   - Proceed with push workflow on new branch
 
 ## Workflow
 

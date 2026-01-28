@@ -13,8 +13,20 @@ You are executing the `/commit-all` command to create a conventional commit. Fol
 
 2. **Check Current Branch**
    Run: !`git branch --show-current`
-   If branch is `main`, `master`, `develop`, or matches `release/*`, warn user: "You are on a protected branch. Commit anyway? (Yes/No)"
-   If user says No, abort.
+   If branch is `main`, `master`, `develop`, or matches `release/*`, warn user: "You are on a protected branch. What would you like to do?"
+   Present options:
+   - label: "Commit Anyway"
+     description: "Commit directly to protected branch"
+   - label: "Create Branch"
+     description: "Create a new branch with conventional naming and commit there"
+   - label: "Cancel"
+     description: "Abort the commit"
+
+   If user chooses "Create Branch":
+   - Suggest branch name: `feat/short-description` (infer from commit intent)
+   - Confirm branch name with user
+   - Run: !`git checkout -b <suggested-branch-name>`
+   - Proceed with commit workflow on new branch
 
 ## Workflow
 

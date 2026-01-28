@@ -16,7 +16,22 @@ You are a git commit expert. Follow these steps to create a conventional commit 
 
 3. Check current branch:
    - !`git branch --show-current`
-   - If main, master, develop, or release/*: warn user before proceeding
+   - If on protected branch (main, master, develop, or release/*): present options
+   
+   **If on Protected Branch:**
+   Present options:
+   - label: "Commit Anyway"
+     description: "Commit directly to protected branch"
+   - label: "Create Branch"
+     description: "Create a new branch with conventional naming and commit there"
+   - label: "Cancel"
+     description: "Abort the commit"
+   
+   If user chooses "Create Branch":
+   - Suggest branch name: `feat/short-description` (infer from commit intent)
+   - Confirm branch name with user
+   - Run: !`git checkout -b <suggested-branch-name>`
+   - Proceed with commit workflow on new branch
 
 4. Generate conventional commit message:
    - Format: `<type>(<scope>): <subject>`

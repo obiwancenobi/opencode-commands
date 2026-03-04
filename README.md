@@ -114,14 +114,90 @@ refactor(utils): simplify date formatting logic
 
 ## API Documentation
 
+### Claude Code Compatibility
+
+These command specifications are compatible with Claude Code (claude.ai/code). The commands use a clean, executable syntax that Claude Code can parse and run directly.
+
+#### Supported Platforms
+
+| Platform | Status | Notes |
+|----------|--------|-------|
+| Claude Code | ✅ Supported | Uses `Run: git <command>` syntax |
+| Cursor | ✅ Compatible | Command files work with Cursor rules |
+| Other AI Assistants | ✅ Compatible | Standard Markdown format |
+
+### Setup Instructions
+
+#### For Claude Code Users
+
+1. **Clone or copy this repository** to your preferred location:
+   ```bash
+   git clone https://github.com/obiwancenobi/opencode-commands.git ~/opencode-commands
+   ```
+
+2. **Reference the commands** in your workflow - Claude Code will read the `.opencode/commands/*.md` files to understand the structured workflows.
+
+3. **No additional configuration required** - The command files are self-contained Markdown with YAML frontmatter.
+
+### Usage Instructions
+
+#### Invoking Commands
+
+Once the repository is set up, you can use the slash commands in your conversations with Claude Code:
+
+1. **Start a conversation** with Claude Code
+2. **Type a command** like `/commit-all` or `/push-staged`
+3. **Claude Code will**:
+   - Read the corresponding `.md` file from `.opencode/commands/`
+   - Execute pre-flight checks
+   - Present options for your approval
+   - Perform the requested operation
+
+#### Command Flow
+
+Each command follows this pattern:
+
+```
+1. Pre-flight Checks → 2. Analyze Changes → 3. Generate Output → 4. User Approval → 5. Execute
+```
+
+#### Example Usage
+
+```
+You: /commit-all
+
+Claude Code: Running pre-flight checks...
+✓ Git user configured: your-name
+✓ Current branch: feature/my-feature
+✓ No protected branch warning
+
+Analyzing changes...
+Found 3 modified files:
+- src/app.ts
+- src/utils.ts
+- README.md
+
+Generated commit message:
+feat(app): add user authentication module
+
+[Question Tool] Commit message ready. What would you like to do?
+- Accept
+- Suggest Again
+- Cancel
+
+You: Accept
+
+Claude Code: ✓ Commit created: feat(app): add user authentication module
+```
+
 ### Tool Execution Syntax
 
 Commands use special syntax for tool execution:
 
 | Syntax | Purpose |
 |--------|---------|
-| ``!`command` `` | Execute a bash command |
-| `!`question` ` | Prompt the user for input |
+| `` `command` `` | Execute a bash command |
+| `question` | Prompt the user for input |
 
 ### Question Tool Parameters
 

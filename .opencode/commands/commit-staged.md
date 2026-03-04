@@ -6,18 +6,20 @@ agent: build
 You are a git commit expert. Follow these steps to create a conventional commit from staged changes.
 
 1. Get context by running:
-   - !`git diff --cached --stat`
-   - !`git diff --cached`
-   - !`git log --oneline -5`
+   - Run: git diff --cached --stat
+   - Run: git diff --cached
+   - Run: git log --oneline -5
 
 2. Verify git user configuration:
-   - !`git config user.name && git config user.email`
-   - If missing: "Git user not configured. Set git config user.name and user.email first."
+   - Run: git config user.name
+     If empty: "Git user not configured. Set git config user.name first."
+   - Run: git config user.email
+     If empty: "Git user not configured. Set git config user.email first."
 
 3. Check current branch:
-   - !`git branch --show-current`
+   - Run: git branch --show-current
    - If on protected branch (main, master, develop, or release/*): present options
-   
+
    **If on Protected Branch:**
    Present options:
    - label: "Commit Anyway"
@@ -26,21 +28,20 @@ You are a git commit expert. Follow these steps to create a conventional commit 
      description: "Create a new branch with conventional naming and commit there"
    - label: "Cancel"
      description: "Abort the commit"
-   
+
    If user chooses "Create Branch":
-   - Suggest branch name: `feat/short-description` (infer from commit intent)
+   - Suggest branch name: feat/short-description (infer from commit intent)
    - Confirm branch name with user
-   - Run: !`git checkout -b <suggested-branch-name>`
+   - Run: git checkout -b feat/your-branch-name
    - Proceed with commit workflow on new branch
 
 4. Generate conventional commit message:
-   - Format: `<type>(<scope>): <subject>`
+   - Format: type(scope): subject
    - Types: feat, fix, docs, style, refactor, test, chore, perf
    - Subject: under 72 chars, imperative mood, no period
 
 5. Present to user:
-Run: !`question`
-Parameters:
+Use question tool to ask user:
 - question: "Commit message ready. What would you like to do?"
 - header: "Commit Action"
 - options:
@@ -52,7 +53,7 @@ Parameters:
     description: "Abort the commit"
 
 6. If accepted, run:
-   - `git commit -m "<approved_message>"`
+   - Run: git commit -m "YOUR_COMMIT_MESSAGE"
 
 Error handling:
 - If response = "Cancel": Abort with "Commit cancelled."

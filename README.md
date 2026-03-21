@@ -46,6 +46,7 @@ This repository exists to:
 | `/push-staged` | Commit staged changes and push to remote with user approval | build |
 | `/add-documentation` | Add comprehensive documentation for code/features | build |
 | `/plan-interview` | Interview to expand a spec from prompt | build |
+| `/generate-social-content` | Generate social media content across platforms with parallel subagents | build |
 
 ### Command File Structure
 
@@ -125,6 +126,8 @@ These command specifications are compatible with Claude Code (claude.ai/code). T
 |----------|--------|-------|
 | Claude Code | ✅ Supported | Uses `Run: git <command>` syntax |
 | Cursor | ✅ Compatible | Command files work with Cursor rules |
+| OpenCode | ✅ Supported | Native `.opencode/commands/` format |
+| Kilo Code | ✅ Supported | Via `.kilocode/workflows/` format |
 | Other AI Assistants | ✅ Compatible | Standard Markdown format |
 
 ### Setup Instructions
@@ -248,11 +251,24 @@ opencode-commands/
 │   │   ├── push-all.md
 │   │   ├── push-staged.md
 │   │   ├── add-documentation.md
-│   │   └── plan-interview.md
+│   │   ├── plan-interview.md
+│   │   └── generate-social-content.md
 │   └── package.json
+├── .claude/
+│   └── commands/
+│       └── generate-social-content.md
+├── .kilocode/
+│   └── workflows/
+│       └── generate-social-content.md
+├── docs/
+│   └── generate-social-content-diagram.md
 ├── AGENTS.md
 └── README.md
 ```
+
+### Workflow Diagram
+
+See [docs/generate-social-content-diagram.md](docs/generate-social-content-diagram.md) for a visual overview of the `/generate-social-content` command flow, including the parallel subagent architecture and output structure.
 
 ### Design Decisions
 
@@ -304,6 +320,20 @@ This repository has no runtime dependencies. It is a documentation-only reposito
 3. Review and confirm final spec outline
 4. Git branch is created (if in git repo)
 5. Spec is written to `plan.md`
+
+### Generating Social Content with `/generate-social-content`
+
+1. Execute `/generate-social-content <topic>` (or without args to be prompted)
+2. Select your timezone for best-time-to-post recommendations
+3. Multi-select target platforms (LinkedIn, Twitter/X, Instagram, Facebook, TikTok, Reddit, YouTube)
+4. Select content goal (Awareness, Engagement, Leads, Launch, Education, Community)
+5. AI assistant launches parallel subagents — one per platform
+6. Each subagent generates platform-specific content in its own `.md` file
+7. A `summary.md` with posting calendar is generated
+
+**Output:** `social-content/<topic-slug>/` containing per-platform content files and a posting calendar.
+
+[See workflow diagram](docs/generate-social-content-diagram.md) for the full flow and subagent architecture.
 
 ## Best Practices
 

@@ -113,6 +113,13 @@ Run independent git commands simultaneously:
 git status && git diff --cached && git log --oneline -5
 ```
 
+### Parallel Subagents
+For content generation commands, launch one subagent per target simultaneously:
+- Use the `Task` tool (OpenCode/Claude Code) or `new_task()` (Kilo Code)
+- All subagent calls must be in a single message for parallel execution
+- Each subagent receives: context, platform, goal, timezone, output path
+- See [docs/generate-social-content-diagram.md](docs/generate-social-content-diagram.md) for the architecture diagram
+
 ### Safety First
 - Always verify git config before operations
 - Check current branch for protected warnings
@@ -129,3 +136,11 @@ Follow: pre-flight → analyze → generate → present → execute
 4. Add user approval steps with question tool
 5. Test with single command validation above
 6. Verify consistency with existing command files
+
+### Multi-Tool Compatibility
+
+For commands that span OpenCode, Claude Code, and Kilo Code:
+- **OpenCode**: `.opencode/commands/` — uses `question` tool, `$ARGUMENTS`, `Task` tool for subagents
+- **Claude Code**: `.claude/commands/` — uses `allowed-tools` frontmatter, inline prompts, `Task` tool
+- **Kilo Code**: `.kilocode/workflows/` — plain markdown, chat prompts, `new_task()` for subtasks
+- Core prompt logic is shared; only interaction patterns differ per tool

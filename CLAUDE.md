@@ -18,15 +18,26 @@ opencode-commands/
 │   │   ├── push-all.md
 │   │   ├── push-staged.md
 │   │   ├── add-documentation.md
-│   │   └── plan-interview.md
+│   │   ├── plan-interview.md
+│   │   └── generate-social-content.md  # Multi-platform content with parallel subagents
 │   ├── node_modules/      # If developing/testing locally
 │   └── package.json       # Empty (documentation-only repository)
+├── .claude/
+│   └── commands/          # Claude Code compatible command files
+│       └── generate-social-content.md
+├── .kilocode/
+│   └── workflows/         # Kilo Code compatible workflow files
+│       └── generate-social-content.md
+├── docs/
+│   └── generate-social-content-diagram.md  # Workflow diagrams
 ├── AGENTS.md              # Detailed agent guidelines (primary reference)
 ├── README.md              # User-facing documentation
 └── CLAUDE.md              # This file
 ```
 
 **Key Concept**: This repository is documentation-only. There is no executable code—only Markdown command specifications that AI assistants read and execute.
+
+**Multi-Tool Compatibility**: The `/generate-social-content` command is available in three formats for OpenCode, Claude Code, and Kilo Code. See [docs/generate-social-content-diagram.md](docs/generate-social-content-diagram.md) for the full workflow diagram.
 
 ## Command Files Structure
 
@@ -117,6 +128,7 @@ Follow AGENTS.md "Adding New Commands" section:
 - **Parallel execution**: Run `git status && git diff --cached && git log --oneline -5` simultaneously
 - **Error messages**: Be specific and suggest concrete fixes
 - **Protected branches**: Warn and present three options (Commit Anyway, Create Branch, Cancel)
+- **Parallel subagents**: For content generation, launch one subagent per platform simultaneously via the `Task` tool
 
 See individual command files for complete examples of these patterns.
 
@@ -125,9 +137,12 @@ See individual command files for complete examples of these patterns.
 Primary reference for development:
 - `AGENTS.md` — Comprehensive guidelines for agents (code style, workflow patterns, safety)
 - `README.md` — User documentation and API compatibility
+- [docs/generate-social-content-diagram.md](docs/generate-social-content-diagram.md) — Workflow diagrams for the social content command
 
 Other important files:
 - `.opencode/commands/*.md` — All command specifications (use as templates)
+- `.claude/commands/*.md` — Claude Code compatible command copies
+- `.kilocode/workflows/*.md` — Kilo Code compatible workflow copies
 - `.gitignore` — Lists: node_modules, package.json, bun.lock (don't commit generated artifacts)
 
 ## Dependencies & Tooling

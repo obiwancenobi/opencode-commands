@@ -1,10 +1,32 @@
 # OpenCode Commands
 
-A repository containing command specifications for git operations and planning workflows. These specifications define slash commands that follow structured workflows for an AI coding assistant.
+A repository of slash command specifications for git operations and planning workflows. Write once, run across three AI coding assistants.
+
+**Supported Tools:** OpenCode | Claude Code | Kilo Code
 
 ## Overview
 
-This repository contains Markdown files with YAML frontmatter that define slash commands for an AI coding assistant. Each command specification provides a structured workflow for common development tasks, ensuring consistent and safe git operations.
+This repository provides the same command specifications in three formats so they work across multiple AI coding assistants. Each command provides a structured workflow for common development tasks, ensuring consistent and safe git operations.
+
+### Quick Start
+
+Pick your tool and you're ready to go — no configuration needed.
+
+| Tool | Directory | Setup |
+|------|-----------|-------|
+| **OpenCode** | `.opencode/commands/` | Clone repo, commands auto-discovered |
+| **Claude Code** | `.claude/commands/` | Clone repo, commands auto-discovered |
+| **Kilo Code** | `.kilocode/workflows/` | Clone repo, workflows auto-discovered |
+
+```bash
+# Clone into any of your projects
+git clone <this-repo-url> .
+
+# Then use in your AI assistant:
+/commit-all
+/push-staged
+/create-pr
+```
 
 ### What This Repository Does
 
@@ -14,6 +36,7 @@ The repository provides pre-defined command specifications that:
 - Provide user approval workflows before destructive operations
 - Standardize commit message formatting across projects
 - Facilitate feature planning through structured interviews
+- Work across OpenCode, Claude Code, and Kilo Code
 
 ### Why It Exists
 
@@ -22,35 +45,39 @@ This repository exists to:
 2. **Prevent Mistakes**: Implement pre-flight checks and user approval steps to prevent accidental commits
 3. **Enforce Best Practices**: Use conventional commit formats and protect sensitive branches
 4. **Streamline Planning**: Provide structured workflows for feature specification and planning
+5. **Multi-Tool Support**: Write once, use across OpenCode, Claude Code, and Kilo Code
 
 ### Key Concepts and Terminology
 
 | Term | Definition |
 |------|------------|
-| **Command Specification** | A Markdown file with YAML frontmatter that defines a slash command's behavior |
+| **Command Specification** | A Markdown file that defines a slash command's behavior |
 | **Conventional Commit** | A commit message format following `<type>(<scope>): <subject>` pattern |
 | **Pre-flight Check** | Validation steps run before executing a command (e.g., git config verification) |
 | **Agent** | The AI assistant type that should execute the command (e.g., `build`, `general`) |
-| **Frontmatter** | YAML metadata at the top of command specification files |
+| **Frontmatter** | YAML metadata at the top of OpenCode/Claude Code command files |
+| **Workflow** | Kilo Code's name for command specifications (plain Markdown, no frontmatter) |
 
 ## Command Specifications
 
 ### Available Commands
 
-| Command | Description | Agent |
-|---------|-------------|-------|
-| `/commit-all` | Create a conventional commit from all changes with user approval | build |
-| `/commit-staged` | Create a conventional commit from staged changes with user approval | build |
-| `/create-pr` | Commit all changes, push to remote, and create a pull request with user approval | build |
-| `/push-all` | Commit all changes and push to remote with user approval | build |
-| `/push-staged` | Commit staged changes and push to remote with user approval | build |
-| `/add-documentation` | Add comprehensive documentation for code/features | build |
-| `/plan-interview` | Interview to expand a spec from prompt | build |
-| `/generate-social-content` | Generate social media content across platforms with parallel subagents | build |
+All 8 commands are available across OpenCode, Claude Code, and Kilo Code.
+
+| Command | Description | OpenCode | Claude Code | Kilo Code |
+|---------|-------------|:--------:|:-----------:|:---------:|
+| `/commit-all` | Create a conventional commit from all changes with user approval | `.opencode/` | `.claude/` | `.kilocode/` |
+| `/commit-staged` | Create a conventional commit from staged changes with user approval | `.opencode/` | `.claude/` | `.kilocode/` |
+| `/create-pr` | Commit all changes, push to remote, and create a pull request | `.opencode/` | `.claude/` | `.kilocode/` |
+| `/push-all` | Commit all changes and push to remote with user approval | `.opencode/` | `.claude/` | `.kilocode/` |
+| `/push-staged` | Commit staged changes and push to remote with user approval | `.opencode/` | `.claude/` | `.kilocode/` |
+| `/add-documentation` | Add comprehensive documentation for code/features | `.opencode/` | `.claude/` | `.kilocode/` |
+| `/plan-interview` | Interview to expand a spec from prompt | `.opencode/` | `.claude/` | `.kilocode/` |
+| `/generate-social-content` | Generate social media content across platforms with parallel subagents | `.opencode/` | `.claude/` | `.kilocode/` |
 
 ### Command File Structure
 
-Each command specification follows this structure:
+#### OpenCode Format (`.opencode/commands/`)
 
 ```yaml
 ---
@@ -68,12 +95,60 @@ agent: build
 [Common errors and responses]
 ```
 
+#### Claude Code Format (`.claude/commands/`)
+
+```yaml
+---
+description: Brief description of the command
+allowed-tools: Bash(git:*), Read, Grep, Glob
+---
+
+## Pre-flight Checks
+[Validation steps with Bash(cmd) syntax]
+
+## Workflow
+[Step-by-step with inline chat prompts for user input]
+
+## Error Handling
+[Common errors and responses]
+```
+
+#### Kilo Code Format (`.kilocode/workflows/`)
+
+```markdown
+# Command Title
+
+Brief description of the command.
+
+## Pre-flight Checks
+[Validation steps using execute_command]
+
+## Workflow
+[Step-by-step with ask_user for user input]
+
+## Error Handling
+[Common errors and responses]
+```
+
 ### Frontmatter Fields
+
+#### OpenCode
 
 | Field | Required | Description |
 |-------|----------|-------------|
 | `description` | Yes | Brief description shown in command help |
 | `agent` | Yes | AI assistant type that should execute (e.g., `build`, `general`) |
+
+#### Claude Code
+
+| Field | Required | Description |
+|-------|----------|-------------|
+| `description` | Yes | Brief description shown in command help |
+| `allowed-tools` | Yes | Space-separated list of allowed tools (e.g., `Bash(git:*), Read, Task`) |
+
+#### Kilo Code
+
+No frontmatter required. Commands are plain Markdown files with a title heading.
 
 ## Conventional Commits
 
@@ -116,43 +191,83 @@ refactor(utils): simplify date formatting logic
 
 ## API Documentation
 
-### Claude Code Compatibility
+### Multi-Tool Compatibility
 
-These command specifications are compatible with Claude Code (claude.ai/code). The commands use a clean, executable syntax that Claude Code can parse and run directly.
+All commands are available in three formats. Core workflow logic is shared — only user interaction patterns differ per tool.
 
-#### Supported Platforms
+| Platform | Directory | Frontmatter | User Prompts | Bash | Subagents |
+|----------|-----------|-------------|-------------|------|-----------|
+| **OpenCode** | `.opencode/commands/` | `description` + `agent` | `question` tool | `Run: cmd` | `Task` tool |
+| **Claude Code** | `.claude/commands/` | `description` + `allowed-tools` | Inline chat prompts | `Bash(cmd)` | `Task` tool |
+| **Kilo Code** | `.kilocode/workflows/` | None (plain markdown) | `ask_user` | `execute_command` | `new_task()` |
 
-| Platform | Status | Notes |
-|----------|--------|-------|
-| Claude Code | ✅ Supported | Uses `Run: git <command>` syntax |
-| Cursor | ✅ Compatible | Command files work with Cursor rules |
-| OpenCode | ✅ Supported | Native `.opencode/commands/` format |
-| Kilo Code | ✅ Supported | Via `.kilocode/workflows/` format |
-| Other AI Assistants | ✅ Compatible | Standard Markdown format |
+#### Same Command, Three Formats
+
+For example, here's how a user approval step looks in each tool:
+
+**OpenCode** — uses structured `question` tool:
+```yaml
+Use question tool to ask user:
+- question: "Commit message ready. What would you like to do?"
+- header: "Commit Action"
+- options:
+  - label: "Accept"
+    description: "Stage all and commit with this message"
+  - label: "Cancel"
+    description: "Abort the commit"
+```
+
+**Claude Code** — uses inline chat prompts:
+```
+Ask in chat:
+1. Accept — Stage all and commit with this message
+2. Suggest Again — Generate an alternative commit message
+3. Cancel — Abort the commit
+
+Reply with the number.
+```
+
+**Kilo Code** — uses `ask_user`:
+```
+Use ask_user:
+> Commit message ready. What would you like to do?
+>
+> 1. Accept — Stage all and commit with this message
+> 2. Suggest Again — Generate an alternative commit message
+> 3. Cancel — Abort the commit
+```
 
 ### Setup Instructions
 
+#### For OpenCode Users
+
+1. Clone or copy this repository to your project
+2. Commands are auto-discovered from `.opencode/commands/*.md`
+3. Use `/commit-all`, `/push-staged`, etc. in your conversation
+
 #### For Claude Code Users
 
-1. **Clone or copy this repository** to your preferred location:
-   ```bash
-   git clone https://github.com/obiwancenobi/opencode-commands.git ~/opencode-commands
-   ```
+1. Clone or copy this repository to your project
+2. Commands are auto-discovered from `.claude/commands/*.md`
+3. Use `/commit-all`, `/push-staged`, etc. in your conversation
+4. Commands include `allowed-tools` in frontmatter for permission scoping
 
-2. **Reference the commands** in your workflow - Claude Code will read the `.opencode/commands/*.md` files to understand the structured workflows.
+#### For Kilo Code Users
 
-3. **No additional configuration required** - The command files are self-contained Markdown with YAML frontmatter.
+1. Clone or copy this repository to your project
+2. Workflows are auto-discovered from `.kilocode/workflows/*.md`
+3. Use the workflow commands in your conversation
 
 ### Usage Instructions
 
 #### Invoking Commands
 
-Once the repository is set up, you can use the slash commands in your conversations with Claude Code:
+Once the repository is set up, you can use the slash commands in your conversations:
 
-1. **Start a conversation** with Claude Code
+1. **Start a conversation** with your AI assistant
 2. **Type a command** like `/commit-all` or `/push-staged`
-3. **Claude Code will**:
-   - Read the corresponding `.md` file from `.opencode/commands/`
+3. **The assistant will**:
+   - Read the corresponding command file from the tool-specific directory
    - Execute pre-flight checks
    - Present options for your approval
    - Perform the requested operation
@@ -170,7 +285,7 @@ Each command follows this pattern:
 ```
 You: /commit-all
 
-Claude Code: Running pre-flight checks...
+Assistant: Running pre-flight checks...
 ✓ Git user configured: your-name
 ✓ Current branch: feature/my-feature
 ✓ No protected branch warning
@@ -184,28 +299,46 @@ Found 3 modified files:
 Generated commit message:
 feat(app): add user authentication module
 
-[Question Tool] Commit message ready. What would you like to do?
-- Accept
-- Suggest Again
-- Cancel
+Commit message ready. What would you like to do?
+1. Accept — Stage all and commit with this message
+2. Suggest Again — Generate an alternative commit message
+3. Cancel — Abort the commit
 
-You: Accept
+You: 1
 
-Claude Code: ✓ Commit created: feat(app): add user authentication module
+Assistant: ✓ Commit created: feat(app): add user authentication module
 ```
 
 ### Tool Execution Syntax
 
-Commands use special syntax for tool execution:
+Each tool has its own syntax for executing commands and prompting users:
+
+#### OpenCode
 
 | Syntax | Purpose |
 |--------|---------|
 | `` `command` `` | Execute a bash command |
-| `question` | Prompt the user for input |
+| `question` | Prompt the user for input via structured question tool |
 
-### Question Tool Parameters
+#### Claude Code
 
-When user interaction is needed, use the question tool with:
+| Syntax | Purpose |
+|--------|---------|
+| `Bash(command)` | Execute a bash command |
+| Inline chat prompt | Ask user with numbered options in chat |
+
+#### Kilo Code
+
+| Syntax | Purpose |
+|--------|---------|
+| `execute_command` with backtick-wrapped command | Execute a bash command |
+| `ask_user` | Prompt the user with options |
+| `new_task()` | Launch a parallel subtask |
+| `write_to_file` | Write content to a file |
+
+### Question Tool Parameters (OpenCode)
+
+When user interaction is needed in OpenCode, use the question tool with:
 
 ```yaml
 question: "Clear question about what to do next"
@@ -239,36 +372,56 @@ The following git commands are used across commands:
 
 ### Architecture Overview
 
-The repository follows a simple structure:
+The repository provides commands in three formats for multi-tool compatibility:
 
 ```
 opencode-commands/
 ├── .opencode/
-│   ├── commands/
-│   │   ├── commit-all.md
-│   │   ├── commit-staged.md
-│   │   ├── create-pr.md
-│   │   ├── push-all.md
-│   │   ├── push-staged.md
-│   │   ├── add-documentation.md
-│   │   ├── plan-interview.md
-│   │   └── generate-social-content.md
-│   └── package.json
+│   └── commands/              # OpenCode format (YAML frontmatter + question tool)
+│       ├── commit-all.md
+│       ├── commit-staged.md
+│       ├── create-pr.md
+│       ├── push-all.md
+│       ├── push-staged.md
+│       ├── add-documentation.md
+│       ├── plan-interview.md
+│       └── generate-social-content.md
 ├── .claude/
-│   └── commands/
+│   └── commands/              # Claude Code format (allowed-tools + inline prompts)
+│       ├── commit-all.md
+│       ├── commit-staged.md
+│       ├── create-pr.md
+│       ├── push-all.md
+│       ├── push-staged.md
+│       ├── add-documentation.md
+│       ├── plan-interview.md
 │       └── generate-social-content.md
 ├── .kilocode/
-│   └── workflows/
+│   └── workflows/             # Kilo Code format (plain markdown + ask_user)
+│       ├── commit-all.md
+│       ├── commit-staged.md
+│       ├── create-pr.md
+│       ├── push-all.md
+│       ├── push-staged.md
+│       ├── add-documentation.md
+│       ├── plan-interview.md
 │       └── generate-social-content.md
 ├── docs/
+│   ├── git-commit-workflow.md
+│   ├── create-pr-workflow.md
 │   └── generate-social-content-diagram.md
 ├── AGENTS.md
+├── CLAUDE.md
 └── README.md
 ```
 
-### Workflow Diagram
+### Workflow Diagrams
 
-See [docs/generate-social-content-diagram.md](docs/generate-social-content-diagram.md) for a visual overview of the `/generate-social-content` command flow, including the parallel subagent architecture and output structure.
+| Diagram | Description |
+|---------|-------------|
+| [Git Commit Workflow](docs/git-commit-workflow.md) | Flow for `/commit-all`, `/commit-staged`, `/push-all`, `/push-staged` |
+| [Create PR Workflow](docs/create-pr-workflow.md) | Flow for `/create-pr` including gh CLI fallback |
+| [Generate Social Content](docs/generate-social-content-diagram.md) | Parallel subagent architecture for `/generate-social-content` |
 
 ### Design Decisions
 
@@ -277,6 +430,7 @@ See [docs/generate-social-content-diagram.md](docs/generate-social-content-diagr
 3. **User Approval Workflows**: All destructive operations require explicit user confirmation
 4. **Parallel Execution**: Independent git commands run in parallel for efficiency
 5. **Error Handling First**: Pre-flight checks run before any action to fail fast
+6. **Multi-Tool Format**: Same core logic in three formats — only interaction patterns differ
 
 ### Dependencies
 
@@ -344,6 +498,7 @@ This repository has no runtime dependencies. It is a documentation-only reposito
 3. **Follow conventional commits**: Use standardized commit message format
 4. **Handle errors gracefully**: Provide clear error messages and suggestions
 5. **Use parallel execution**: Run independent commands simultaneously
+6. **Maintain all three formats**: Every command must exist in OpenCode, Claude Code, and Kilo Code directories with identical workflow logic
 
 ### Branch Naming
 
@@ -391,15 +546,23 @@ The following branches are protected and trigger warnings:
 ### Markdown Validation
 
 ```bash
-# Check frontmatter structure
-grep -n "^---" *.md
+# Check OpenCode frontmatter (requires description + agent)
+for f in .opencode/commands/*.md; do
+  grep -q "^description:" "$f" && grep -q "^agent:" "$f" && echo "OK: $f"
+done
 
-# Validate YAML syntax
-yq eval 'select(document_index == 0)' *.md
+# Check Claude Code frontmatter (requires description + allowed-tools)
+for f in .claude/commands/*.md; do
+  grep -q "^description:" "$f" && grep -q "^allowed-tools:" "$f" && echo "OK: $f"
+done
 
-# Check required fields
-grep -l "description:" *.md
-grep -l "agent:" *.md
+# Check Kilo Code workflows (requires title heading)
+for f in .kilocode/workflows/*.md; do
+  grep -q "^# " "$f" && echo "OK: $f"
+done
+
+# Validate YAML frontmatter syntax
+yq eval '.' .opencode/commands/*.md .claude/commands/*.md 2>/dev/null || echo "yq not available"
 ```
 
 ### Git Validation
@@ -419,12 +582,20 @@ git remote get-url origin
 
 To add a new command:
 
-1. Create a new Markdown file in `.opencode/commands/`
-2. Use the naming pattern `<action>-<target>.md`
-3. Include YAML frontmatter with `description` and `agent`
-4. Follow the established workflow format
-5. Add comprehensive error handling
-6. Test the workflow manually
+1. Create the OpenCode format in `.opencode/commands/<action>-<target>.md` (kebab-case)
+2. Include YAML frontmatter with `description` and `agent`
+3. Follow the established workflow format with Pre-flight Checks, Workflow, Error Handling
+4. Add user approval steps with the `question` tool
+5. Create the Claude Code format in `.claude/commands/<action>-<target>.md`:
+   - Replace `agent` with `allowed-tools` in frontmatter
+   - Replace `question` tool with inline chat prompts
+   - Use `Bash(cmd)` syntax for commands
+6. Create the Kilo Code format in `.kilocode/workflows/<action>-<target>.md`:
+   - No frontmatter — start with a title heading
+   - Replace `question` tool with `ask_user`
+   - Use `execute_command` for bash commands
+7. Test the workflow manually across all three tools
+8. Verify consistency with existing command files
 
 ## License
 

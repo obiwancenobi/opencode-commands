@@ -4,7 +4,7 @@ Guidelines for agentic coding agents working in the opencode-commands repository
 
 ## Repository Overview
 
-This repository contains command specifications for git operations and planning workflows. Files are Markdown documents with YAML frontmatter defining slash commands that follow structured workflows.
+This repository contains command specifications for git operations and planning workflows, available in three formats for OpenCode, Claude Code, and Kilo Code. Core workflow logic is shared across all formats — only user interaction patterns differ per tool.
 
 ## Cursor/Copilot Rules
 
@@ -25,14 +25,24 @@ git log --oneline -5
 ### Markdown Validation
 ```bash
 # Check frontmatter structure (must have opening and closing ---)
-grep -n "^---" *.md .opencode/commands/*.md
+grep -n "^---" *.md .opencode/commands/*.md .claude/commands/*.md
 
 # Validate YAML frontmatter syntax
-yq eval '.' .opencode/commands/*.md 2>/dev/null || echo "yq not available"
+yq eval '.' .opencode/commands/*.md .claude/commands/*.md 2>/dev/null || echo "yq not available"
 
-# Check required frontmatter fields in all command files
+# Check required frontmatter fields in OpenCode command files
 for f in .opencode/commands/*.md; do
   grep -q "^description:" "$f" && grep -q "^agent:" "$f" && echo "OK: $f"
+done
+
+# Check required frontmatter fields in Claude Code command files
+for f in .claude/commands/*.md; do
+  grep -q "^description:" "$f" && grep -q "^allowed-tools:" "$f" && echo "OK: $f"
+done
+
+# Check Kilo Code workflow files have title headings
+for f in .kilocode/workflows/*.md; do
+  grep -q "^# " "$f" && echo "OK: $f"
 done
 ```
 
@@ -130,12 +140,20 @@ Follow: pre-flight → analyze → generate → present → execute
 
 ## Adding New Commands
 
-1. Create file in `.opencode/commands/` with `<action>-<target>.md` naming
+1. Create the OpenCode file in `.opencode/commands/<action>-<target>.md` with `<action>-<target>.md` naming
 2. Add required frontmatter: `description` and `agent`
 3. Include sections: Pre-flight Checks, Workflow, Error Handling
-4. Add user approval steps with question tool
-5. Test with single command validation above
-6. Verify consistency with existing command files
+4. Add user approval steps with the `question` tool
+5. Create the Claude Code file in `.claude/commands/<action>-<target>.md`:
+   - Replace `agent` with `allowed-tools` in frontmatter
+   - Replace `question` tool with inline chat prompts
+   - Use `Bash(cmd)` syntax for bash commands
+6. Create the Kilo Code file in `.kilocode/workflows/<action>-<target>.md`:
+   - No frontmatter — start with `# Title`
+   - Replace `question` tool with `ask_user`
+   - Use `execute_command` for bash commands
+7. Test with single command validation above
+8. Verify consistency with existing command files
 
 ### Multi-Tool Compatibility
 

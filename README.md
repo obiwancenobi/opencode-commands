@@ -1,4 +1,4 @@
-# OpenCode Commands
+# CommandKenobi
 
 A repository of slash command specifications for git operations and planning workflows. Write once, run across three AI coding assistants.
 
@@ -375,7 +375,7 @@ The following git commands are used across commands:
 The repository provides commands in three formats for multi-tool compatibility:
 
 ```
-opencode-commands/
+CommandKenobi/
 ├── .opencode/
 │   └── commands/              # OpenCode format (YAML frontmatter + question tool)
 │       ├── commit-all.md

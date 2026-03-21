@@ -9,7 +9,7 @@ This repository contains command specifications for git operations and planning 
 ## Architecture
 
 ```
-opencode-commands/
+CommandKenobi/
 ├── .opencode/
 │   └── commands/              # OpenCode format
 │       ├── commit-all.md

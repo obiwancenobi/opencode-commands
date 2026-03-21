@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Guidelines for agentic coding agents working in the opencode-commands repository.
+Guidelines for agentic coding agents working in the CommandKenobi repository.
 
 ## Repository Overview
 

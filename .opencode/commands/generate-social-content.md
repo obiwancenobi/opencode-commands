@@ -105,6 +105,10 @@ Derive a kebab-case directory name from `{TOPIC}`:
 
 Run: mkdir -p "social-content/{DIRECTORY_NAME}"
 
+After creating the directory, check for existing platform files:
+Run: ls {OUTPUT_DIR}/*.md 2>/dev/null
+If platform files already exist, each subagent will append a numeric suffix to avoid overwriting (e.g., `linkedin-2.md`).
+
 Save the directory path as `{OUTPUT_DIR}`.
 
 ## Step 6: Launch Parallel Subagents
@@ -126,6 +130,8 @@ Goal: {GOAL}
 Timezone: {TIMEZONE}
 
 Create a LinkedIn post and write it to: {OUTPUT_DIR}/linkedin.md
+
+IMPORTANT: Before writing, check if the target file already exists (e.g., run `ls {OUTPUT_DIR}/linkedin.md 2>/dev/null`). If it exists, find the next available filename by incrementing a numeric suffix (linkedin-2.md, linkedin-3.md, etc.). Use the first filename that doesn't exist.
 
 The file must include these sections in markdown:
 
@@ -162,6 +168,8 @@ Goal: {GOAL}
 Timezone: {TIMEZONE}
 
 Create a Twitter thread or single tweet and write it to: {OUTPUT_DIR}/twitter-x.md
+
+IMPORTANT: Before writing, check if the target file already exists (e.g., run `ls {OUTPUT_DIR}/twitter-x.md 2>/dev/null`). If it exists, find the next available filename by incrementing a numeric suffix (twitter-x-2.md, twitter-x-3.md, etc.). Use the first filename that doesn't exist.
 
 The file must include these sections in markdown:
 
@@ -206,6 +214,8 @@ Goal: {GOAL}
 Timezone: {TIMEZONE}
 
 Create Instagram content and write it to: {OUTPUT_DIR}/instagram.md
+
+IMPORTANT: Before writing, check if the target file already exists (e.g., run `ls {OUTPUT_DIR}/instagram.md 2>/dev/null`). If it exists, find the next available filename by incrementing a numeric suffix (instagram-2.md, instagram-3.md, etc.). Use the first filename that doesn't exist.
 
 The file must include these sections in markdown:
 
@@ -256,6 +266,8 @@ Timezone: {TIMEZONE}
 
 Create Facebook content and write it to: {OUTPUT_DIR}/facebook.md
 
+IMPORTANT: Before writing, check if the target file already exists (e.g., run `ls {OUTPUT_DIR}/facebook.md 2>/dev/null`). If it exists, find the next available filename by incrementing a numeric suffix (facebook-2.md, facebook-3.md, etc.). Use the first filename that doesn't exist.
+
 The file must include these sections in markdown:
 
 # Facebook Content
@@ -291,6 +303,8 @@ Goal: {GOAL}
 Timezone: {TIMEZONE}
 
 Create TikTok content and write it to: {OUTPUT_DIR}/tiktok.md
+
+IMPORTANT: Before writing, check if the target file already exists (e.g., run `ls {OUTPUT_DIR}/tiktok.md 2>/dev/null`). If it exists, find the next available filename by incrementing a numeric suffix (tiktok-2.md, tiktok-3.md, etc.). Use the first filename that doesn't exist.
 
 The file must include these sections in markdown:
 
@@ -340,6 +354,8 @@ Timezone: {TIMEZONE}
 
 Create Reddit content and write it to: {OUTPUT_DIR}/reddit.md
 
+IMPORTANT: Before writing, check if the target file already exists (e.g., run `ls {OUTPUT_DIR}/reddit.md 2>/dev/null`). If it exists, find the next available filename by incrementing a numeric suffix (reddit-2.md, reddit-3.md, etc.). Use the first filename that doesn't exist.
+
 The file must include these sections in markdown:
 
 # Reddit Content
@@ -384,6 +400,8 @@ Goal: {GOAL}
 Timezone: {TIMEZONE}
 
 Create YouTube content and write it to: {OUTPUT_DIR}/youtube.md
+
+IMPORTANT: Before writing, check if the target file already exists (e.g., run `ls {OUTPUT_DIR}/youtube.md 2>/dev/null`). If it exists, find the next available filename by incrementing a numeric suffix (youtube-2.md, youtube-3.md, etc.). Use the first filename that doesn't exist.
 
 The file must include these sections in markdown:
 
@@ -432,7 +450,9 @@ Describe the ideal thumbnail: text overlay, facial expression, color scheme, com
 
 ## Step 7: Generate Summary
 
-After ALL subagents complete, generate `{OUTPUT_DIR}/summary.md`:
+After ALL subagents complete, generate the summary. Before writing, check if `{OUTPUT_DIR}/summary.md` already exists. If it exists, use the next numeric suffix (summary-2.md, summary-3.md, etc.).
+
+Generate `{OUTPUT_DIR}/summary.md` (or the suffixed filename):
 
 ```markdown
 # Social Content Plan — {TOPIC_SLUG_TITLE}

@@ -88,6 +88,10 @@ Save the goal as `{GOAL}`.
 
 2. Use `execute_command` to run `mkdir -p "social-content/{DIRECTORY_NAME}"`
 
+3. After creating the directory, check for existing platform files:
+   Use `execute_command` to run `ls {OUTPUT_DIR}/*.md 2>/dev/null`
+   If platform files already exist, each subtask will append a numeric suffix to avoid overwriting (e.g., `linkedin-2.md`).
+
 Save the directory path as `{OUTPUT_DIR}`.
 
 ## Step 6: Launch Parallel Subtasks
@@ -105,7 +109,9 @@ Context: {TOPIC}
 Goal: {GOAL}
 Timezone: {TIMEZONE}
 
-Create a LinkedIn post. Use `write_to_file` to save it to: {OUTPUT_DIR}/linkedin.md
+Create a LinkedIn post. Before writing, check if the file already exists with: `ls {OUTPUT_DIR}/linkedin.md 2>/dev/null`. If it exists, find the next available filename by incrementing a numeric suffix (linkedin-2.md, linkedin-3.md, etc.). Use the first filename that doesn't exist.
+
+Use `write_to_file` to save it to: {OUTPUT_DIR}/linkedin.md (or the suffixed filename if the base name exists).
 
 The file must include these sections in markdown:
 
@@ -142,7 +148,9 @@ Context: {TOPIC}
 Goal: {GOAL}
 Timezone: {TIMEZONE}
 
-Create a Twitter thread or single tweet. Use `write_to_file` to save it to: {OUTPUT_DIR}/twitter-x.md
+Create a Twitter thread or single tweet. Before writing, check if the file already exists with: `ls {OUTPUT_DIR}/twitter-x.md 2>/dev/null`. If it exists, find the next available filename by incrementing a numeric suffix (twitter-x-2.md, twitter-x-3.md, etc.). Use the first filename that doesn't exist.
+
+Use `write_to_file` to save it to: {OUTPUT_DIR}/twitter-x.md (or the suffixed filename if the base name exists).
 
 The file must include these sections in markdown:
 
@@ -187,7 +195,9 @@ Context: {TOPIC}
 Goal: {GOAL}
 Timezone: {TIMEZONE}
 
-Create Instagram content. Use `write_to_file` to save it to: {OUTPUT_DIR}/instagram.md
+Create Instagram content. Before writing, check if the file already exists with: `ls {OUTPUT_DIR}/instagram.md 2>/dev/null`. If it exists, find the next available filename by incrementing a numeric suffix (instagram-2.md, instagram-3.md, etc.). Use the first filename that doesn't exist.
+
+Use `write_to_file` to save it to: {OUTPUT_DIR}/instagram.md (or the suffixed filename if the base name exists).
 
 The file must include these sections in markdown:
 
@@ -237,7 +247,9 @@ Context: {TOPIC}
 Goal: {GOAL}
 Timezone: {TIMEZONE}
 
-Create Facebook content. Use `write_to_file` to save it to: {OUTPUT_DIR}/facebook.md
+Create Facebook content. Before writing, check if the file already exists with: `ls {OUTPUT_DIR}/facebook.md 2>/dev/null`. If it exists, find the next available filename by incrementing a numeric suffix (facebook-2.md, facebook-3.md, etc.). Use the first filename that doesn't exist.
+
+Use `write_to_file` to save it to: {OUTPUT_DIR}/facebook.md (or the suffixed filename if the base name exists).
 
 The file must include these sections in markdown:
 
@@ -274,7 +286,9 @@ Context: {TOPIC}
 Goal: {GOAL}
 Timezone: {TIMEZONE}
 
-Create TikTok content. Use `write_to_file` to save it to: {OUTPUT_DIR}/tiktok.md
+Create TikTok content. Before writing, check if the file already exists with: `ls {OUTPUT_DIR}/tiktok.md 2>/dev/null`. If it exists, find the next available filename by incrementing a numeric suffix (tiktok-2.md, tiktok-3.md, etc.). Use the first filename that doesn't exist.
+
+Use `write_to_file` to save it to: {OUTPUT_DIR}/tiktok.md (or the suffixed filename if the base name exists).
 
 The file must include these sections in markdown:
 
@@ -323,7 +337,9 @@ Context: {TOPIC}
 Goal: {GOAL}
 Timezone: {TIMEZONE}
 
-Create Reddit content. Use `write_to_file` to save it to: {OUTPUT_DIR}/reddit.md
+Create Reddit content. Before writing, check if the file already exists with: `ls {OUTPUT_DIR}/reddit.md 2>/dev/null`. If it exists, find the next available filename by incrementing a numeric suffix (reddit-2.md, reddit-3.md, etc.). Use the first filename that doesn't exist.
+
+Use `write_to_file` to save it to: {OUTPUT_DIR}/reddit.md (or the suffixed filename if the base name exists).
 
 The file must include these sections in markdown:
 
@@ -369,7 +385,9 @@ Context: {TOPIC}
 Goal: {GOAL}
 Timezone: {TIMEZONE}
 
-Create YouTube content. Use `write_to_file` to save it to: {OUTPUT_DIR}/youtube.md
+Create YouTube content. Before writing, check if the file already exists with: `ls {OUTPUT_DIR}/youtube.md 2>/dev/null`. If it exists, find the next available filename by incrementing a numeric suffix (youtube-2.md, youtube-3.md, etc.). Use the first filename that doesn't exist.
+
+Use `write_to_file` to save it to: {OUTPUT_DIR}/youtube.md (or the suffixed filename if the base name exists).
 
 The file must include these sections in markdown:
 
@@ -418,7 +436,9 @@ Describe the ideal thumbnail: text overlay, facial expression, color scheme, com
 
 ## Step 7: Generate Summary
 
-After ALL subtasks complete, use `write_to_file` to generate `{OUTPUT_DIR}/summary.md`:
+After ALL subtasks complete, generate the summary. Before writing, check if `{OUTPUT_DIR}/summary.md` already exists with: `ls {OUTPUT_DIR}/summary.md 2>/dev/null`. If it exists, use the next numeric suffix (summary-2.md, summary-3.md, etc.).
+
+Use `write_to_file` to generate `{OUTPUT_DIR}/summary.md` (or the suffixed filename):
 
 ```markdown
 # Social Content Plan — {TOPIC_SLUG_TITLE}

@@ -298,7 +298,7 @@ Return a structured summary with:
 
 ## Step 4: Generate HTML Tour
 
-After ALL subagents complete, generate the onboarding HTML file in two stages.
+After ALL subagents complete, generate the onboarding HTML file in three stages.
 
 ### Stage A: Assemble Tour Data
 
